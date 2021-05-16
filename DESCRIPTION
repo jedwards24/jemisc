@@ -1,0 +1,14 @@
+Package: jemisc
+Title: Some miscellaneous functions for personal use.
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "James",
+           family = "Edwards",
+           role = c("aut", "cre"),
+           email = "jamese1326@gmail.com")
+Description: A package for functions that are speculative or used infrequently.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
