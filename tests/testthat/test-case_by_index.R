@@ -1,0 +1,12 @@
+test_that("case_by_index works", {
+  x <- tibble::tibble(a = 11:13, b = 21:23, index = c(1, 2, 1))
+  out <- case_by_index(x, index, a, b, into = "new")
+  expect_true("new" %in% names(out))
+  expect_equal(out[["new"]], c(11L, 22L, 13L))
+  expect_equal(dim(out), c(3L, 4L))
+  expect_error(case_by_index(x, index, a), "Index values must not be greater")
+  x2 <- tibble::tibble(a = 11:13, b = 21:23, index = c(1.1, 2, 1))
+  expect_error(case_by_index(x2, index, a, b), "must be positive integers")
+  x3 <- tibble::tibble(a = 11:13, b = 21:23, index = c(3, 2, 1))
+  expect_error(case_by_index(x3, index, a, b), "Index values must not be greater")
+})

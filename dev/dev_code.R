@@ -89,23 +89,7 @@ system.time({
 })
 identical(dt0, dt5)
 
-case_by_index <- function(data, index_col, ..., into = "output") {
-  input_data <- select(data, ...)
-  index <- pull(data, {{ index_col }})
-  out <- rep(NA, nrow(data))
-  if (!is.integer(index) || !all(index[!is.na(index)]) >= 1L){
-    stop("All values in `index_col` must be positive integers.", call. = FALSE)
-  }
-  max_index <- max(index, na.rm = TRUE)
-  if (max_index > ncol(input_data)){
-    stop("Values must not be greater than the number of look-up columns", call. = FALSE)
-  }
-  for (i in 1 : max_index){
-    query <- index == i
-    out[query] <- input_data[[i]][query]
-  }
-  mutate(data, {{ into }} := out)
-}
+
 
 #0.1s
 system.time(dt6 <- case_by_index(dt, ind, glue("x{1:3}"), into = "new"))
