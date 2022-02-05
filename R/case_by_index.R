@@ -16,6 +16,7 @@
 case_by_index <- function(data, index_column, ..., into = "output") {
   input_data <- dplyr::select(data, ...)
   index <- dplyr::pull(dplyr::select(data, {{ index_column }}))
+
   out <- rep(NA, nrow(data))
   if (!rlang::is_integerish(index) || !all(stats::na.omit(index) >= 0.9)){
     stop("All values in `index_column` must be positive integers.", call. = FALSE)
