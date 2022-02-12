@@ -2,5 +2,7 @@
 
 export(all_identical)
 export(case_by_index)
+export(col_spec)
+importFrom(purrr,"%>%")
 importFrom(rlang,":=")
 importFrom(rlang,.data)
