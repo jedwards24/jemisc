@@ -32,4 +32,8 @@ These types are read directly from \code{data} - there is no guessing or coercio
 The first four are identified using \code{typeof()}. The remainder overwrite the type if
 one of the following is true for the column: \code{is.factor()}, \code{lubridate::is.Date()},
 \code{lubridate::is.POSIXt()}, or \code{"hms" \%in\% class(.)}.
+
+This function is unnecessary because you can use the \code{spec()} directly as \code{col_types} or
+extract the string using \code{as.character(spec(x))}. Also this function will not capture the
+\code{col_number()} specification which reads values such as "£10.50" or "1,234" correctly.
 }

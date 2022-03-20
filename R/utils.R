@@ -1,4 +1,3 @@
-
 #' Test several objects are all identical
 #'
 #' @return Logical. `TRUE` if and only if all objects are `identical()`.

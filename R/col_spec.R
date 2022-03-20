@@ -23,6 +23,9 @@
 #' one of the following is true for the column: `is.factor()`, `lubridate::is.Date()`,
 #' `lubridate::is.POSIXt()`, or `"hms" %in% class(.)`.
 #'
+#' This function is unnecessary because you can use the `spec()` directly as `col_types` or
+#' extract the string using `as.character(spec(x))`. Also this function will not capture the
+#' `col_number()` specification which reads values such as "£10.50" or "1,234" correctly.
 #' @param data A data frame.
 #' @export
 col_spec <- function(data) {
