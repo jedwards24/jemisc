@@ -1,6 +1,6 @@
 Package: jemisc
 Title: Some miscellaneous functions for personal use
-Version: 0.0.1
+Version: 0.0.1.9000
 Authors@R: 
     person(given = "James",
            family = "Edwards",
@@ -20,5 +20,6 @@ Imports:
     stringr,
     tibble
 Suggests: 
+    igraph,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

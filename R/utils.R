@@ -12,3 +12,13 @@ all_identical <- function(...) {
   }
   TRUE
 }
+
+#' Check if given package is installed.
+#' @param package Name of package.
+#' @noRd
+check_package <- function(package) {
+  if (!requireNamespace(package, quietly = TRUE)){
+    stop("Package \"", package, "\" must be installed to use this function.", call. = FALSE)
+  }
+}
+

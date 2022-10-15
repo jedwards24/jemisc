@@ -102,3 +102,30 @@ system.time(dt6 <- case_by_index(dt, "ind", glue("x{1:3}"), into = "new"))
 library(profvis)
 profvis(case_by_index(dt, ind, glue("x{1:3}"), into = "new"))
 profvis(mutate_from_index(dt, "ind", glue("x{1:3}"), into = "new"))
+
+# col_spec------------
+
+library(tidyverse)
+x <- parse_guess("12:05:30")
+parse_guess("12:05:30T000")
+parse_time("12:05:30") %>% class()
+?is.numeric.difftime
+typeof(x)
+class(x)
+hms::hms("12:05:30")
+
+tb2 <- readr::read_csv("tests/testdata/data_col_spec.csv")
+spec(tb2)
+map(tb2, class)
+col_spec(tb)
+col_spec(tb2)
+?read_csv
+
+readr::read_csv("tests/testdata/data_col_spec.csv", col_types = "li-_Tt")
+vignette("readr")
+spec_csv("tests/testdata/data_col_spec.csv")
+tb3 <- map_df(tb, as.character)
+type_convert(tb3, guess_integer = T)
+type_convert(1)
+
+factor(letters[1:3]) %>% typeof()
