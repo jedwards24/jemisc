@@ -2,18 +2,21 @@
 #'
 #' Column A is ordered ahead of column B if `A[i]>=B[i]` for all rows i in which neither A or B has
 #' missing values. A column ordering is a sequence of column names which are in order e.g. A>=B>=C.
-#' This function returns a list of all orderings which are not a subset of another ordering.
+#' This function returns a list of all _possible_ orderings which are not a subset of another
+#' ordering. The orderings are possible not definite where there are `NA`s (treated as missing values).
 #'
-#' @return A list of vectors of column names.
-#' @param df A data frame.
+#' @return A list of vectors of column names. Each name vector gives an ordering of columns
+#' largest to smallest.
+#' @param df A data frame with only atomic columns (no list or data frame columns).
 #' @export
 column_orderings <- function(df) {
+  if (!all(purrr::map_lgl(df, is.atomic))){
+    stop("All column of `df` must be atomic.", call. = FALSE)
+  }
   check_package("igraph")
-  # Add check for equal cols. Remove. Add as attr and warn/message.
   column_orderings_matrix(df) %>%
     adjacency_to_paths()
 }
-
 
 #' Adjacency matrix recording orderings between all pairs of columns in data frame `df`.
 #' A TRUE at (i,j) in the returned matrix values in column are >= to corresponding
@@ -39,7 +42,7 @@ column_orderings_matrix <- function(df) {
 #' @param adj_mat Adjacency matrix output from `column_ordering_matrix()`.
 #' @keywords internal
 adjacency_to_paths <- function(adj_mat) {
-  check_suggests("igraph")
+  check_package("igraph")
   roots <- roots(adj_mat)
   all_paths <- vector("list", length(roots))
   net <- igraph::graph_from_adjacency_matrix(adj_mat, diag = F)
@@ -68,19 +71,18 @@ roots <- function(adj_mat) {
 
 #' Remove paths that are subset of other paths
 #'
-#' Reduce `paths` to keep only paths that do not have a superset in `paths`.
-#'
-#' Used in adjacency_to_paths()
+#' Used in `adjacency_to_paths()`.
 #'
 #' @param paths List of paths output from `igraph::all_simple_paths()`.
 #' @noRd
-reduce_simple_paths <- function(paths) {
+reduce_simple_paths<- function(paths) {
   n <- length(paths)
-  keep <- rep(TRUE, n)
+  keep <- 1:n
   for (i in seq_along(paths)){
-    for(j in seq_along(paths)[-i]){
-      if (length(setdiff(paths[[i]], paths[[j]])) == 0){
-        keep[i] <- FALSE
+    len <- length(paths[[i]])
+    for(j in seq_along(paths)[keep]){
+      if (len < length(paths[[j]]) && length(setdiff(paths[[i]], paths[[j]])) == 0){
+        keep <- keep[which(keep != i)]
         break()
       }
     }
